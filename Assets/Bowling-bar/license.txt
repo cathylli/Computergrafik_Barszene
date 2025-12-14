@@ -1,0 +1,11 @@
+Model Information:
+* title:	Future Space Bowling Bar
+* source:	https://sketchfab.com/3d-models/future-space-bowling-bar-9ddbfb718a3542aeb987745ecb3c15a9
+* author:	Schmitty (https://sketchfab.com/schmitty276)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Future Space Bowling Bar" (https://sketchfab.com/3d-models/future-space-bowling-bar-9ddbfb718a3542aeb987745ecb3c15a9) by Schmitty (https://sketchfab.com/schmitty276) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
