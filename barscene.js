@@ -110,6 +110,8 @@ function main() {
     plane.receiveShadow = true;
     scene.add(plane);
 
+    
+
 
 
     //Object Loader für .obj-Dateien
@@ -226,8 +228,45 @@ function main() {
             console.log('An error happened');
         }
     );
+        
+    // BAR laden
+    gltfLoader.load(
+        'Assets/Bar/scene.gltf',   
+        function (gltf) {
+            const bar = gltf.scene;
 
-    
+            // Bounding Box berechnen und Modell zentrieren
+            bar.updateMatrixWorld(true);
+            const box    = new THREE.Box3().setFromObject(bar);
+            const center = box.getCenter(new THREE.Vector3());
+            const size   = box.getSize(new THREE.Vector3());
+
+            bar.position.sub(center);  // Mittelpunkt nach (0,0,0) schieben
+
+            // Skalierung ausprobieren
+            const targetWidth = 30;    // z.B. gewünschte Breite im Raum
+            const scaleFactor = targetWidth / size.x;
+            bar.scale.setScalar(scaleFactor);
+
+            // Position im Raum
+            bar.position.y = 0;
+            bar.position.x = -25; 
+
+            bar.traverse(obj => {
+                if (obj.isMesh) {
+                    obj.castShadow = true;
+                    obj.receiveShadow = true;
+                }
+            });
+
+            scene.add(bar);
+            blockingObjects.push(bar);
+        },
+        xhr => console.log((xhr.loaded / xhr.total * 100) + '% loaded (bar)'),
+        err => console.error('Error loading new bar:', err)
+    );
+
+
 
     // MUTTER KIND BEZIEHUNGEN
 
