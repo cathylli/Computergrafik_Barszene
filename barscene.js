@@ -281,7 +281,7 @@ function main() {
             if(gltf.animations && gltf.animations.length){
                 mixer = new THREE.AnimationMixer(michelle);
 
-                const dance = mixer.clipAction(gltf.animations[0]);
+                const dance = mixer.clipAction(gltf.animations[2]);
                 dance.play();
                 dance.setLoop(THREE.LoopRepeat, Infinity);
                 dance.clampWhenFinished = false;
