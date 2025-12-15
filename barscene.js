@@ -267,6 +267,34 @@ function main() {
     );
 
 
+    let mixer;
+    //Charakter laden
+    gltfLoader.load(
+        "/Characters/Michelle.glb",
+        (gltf) => {
+            const  michelle = gltf.scene;
+            scene.add(michelle);
+
+            michelle.position.set(0,0,0);
+            michelle.scale.set(7,7,7);
+            
+            if(gltf.animations && gltf.animations.length){
+                mixer = new THREE.AnimationMixer(michelle);
+
+                const dance = mixer.clipAction(gltf.animations[0]);
+                dance.play();
+                dance.setLoop(THREE.LoopRepeat, Infinity);
+                dance.clampWhenFinished = false;
+            }
+        },
+
+        (error) => {
+            console.error("GLB load error:", error);
+        }
+
+    );
+
+
 
     // MUTTER KIND BEZIEHUNGEN
 
@@ -303,7 +331,7 @@ function main() {
     gui.add(controls, 'mouseSensitivity', 0.0005, 0.01);
 
     
-    // DRAW
+    // DRAW / RENDERN
     function draw(time){
         const delta = clock.getDelta();
         stats.update();
@@ -318,6 +346,8 @@ function main() {
         //HIER KOMMEN OBJEKTE, DIE BEWEGT ODER ANDERWEITIG VERÄNDERT WERDEN SOLLEN
         //...
 
+        if (mixer) mixer.update(delta);
+        
         handleKeyboardInput(delta);
 
         gl.render(scene, camera);
