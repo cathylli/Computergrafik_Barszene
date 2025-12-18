@@ -261,6 +261,39 @@ function main() {
 
             scene.add(bar);
             blockingObjects.push(bar);
+
+
+            // Bar-Bounding-Box und Maße ermitteln
+            const barBox    = new THREE.Box3().setFromObject(bar);
+            const barCenter = barBox.getCenter(new THREE.Vector3());
+            const barSize   = barBox.getSize(new THREE.Vector3());
+
+            // Grundparameter für die Lampen
+            const lampColor     = 0xff8800;   
+            const lampIntensity = 2.9;
+            const lampDistance  = 12;
+
+            // Y-Höhe der Lampen: etwa auf Höhe der Lampenschirme
+            const lampHeight = barCenter.y + barSize.y * 0.10; 
+
+            // Z-Position der Lampen
+            const lampZ = barCenter.z - barSize.z * 0.05;
+
+            // Drei Lampen entlang der Barbreite verteilen
+            const xOffsets = [-barSize.x * 0.28, 0, barSize.x * 0.28];
+
+            xOffsets.forEach((xOff) => {
+                const lamp = new THREE.PointLight(lampColor, lampIntensity, lampDistance);
+                lamp.position.set(barCenter.x + xOff, lampHeight, lampZ);
+                lamp.castShadow = true;
+                scene.add(lamp);
+
+                // Debug-Helper, um Position zu prüfen (später entfernen)
+                 //const helper = new THREE.PointLightHelper(lamp, 0.5);
+                 //scene.add(helper);
+            });
+
+
         },
         xhr => console.log((xhr.loaded / xhr.total * 100) + '% loaded (bar)'),
         err => console.error('Error loading new bar:', err)
@@ -270,7 +303,7 @@ function main() {
     let mixer;
     //Charakter laden
     gltfLoader.load(
-        "/Characters/Michelle.glb",
+        "Characters/Michelle.glb",
         (gltf) => {
             const  michelle = gltf.scene;
             scene.add(michelle);
