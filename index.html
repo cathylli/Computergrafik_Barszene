@@ -1,30 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        html, body {
-            margin: 0;
-            height: 100%;
-        }
-        #c {
-            width: 100vw;
-            height: 100vh;
-            display: block;
-        }
-    </style>
-    <title>WebXR Barszene</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body { margin: 0; height: 100%; }
+    #c { width: 100vw; height: 100vh; display: block; }
+  </style>
+  <title>WebXR Barszene</title>
 </head>
+
 <body>
-    <canvas id="c"></canvas>
+  <canvas id="c"></canvas>
+
+  <!-- Prompt -->
+  <div id="prompt" style="
+    position: fixed;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.65);
+    color: white;
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    display: none;
+    z-index: 10;">
+    Press E
+  </div>
+
+  <!-- Jukebox UI -->
+  <div id="jukeboxUI" style="
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    max-width: 90vw;
+    padding: 16px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    font-family: Arial, sans-serif;
+    border-radius: 12px;
+    display: none;
+    z-index: 11;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <div style="font-size: 18px; font-weight: 600;">Jukebox</div>
+      <button id="closeJukebox" style="cursor:pointer;">Close</button>
+    </div>
+
+    <div style="margin-top: 12px; font-size: 14px; opacity: 0.9;">Select a song:</div>
+    <div id="songList" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;"></div>
+
+    <div style="margin-top: 12px; display:flex; gap:8px;">
+      <button id="stopSong" style="cursor:pointer;">Stop</button>
+    </div>
+  </div>
+
+  <!-- Libraries zuerst -->
+  <script src="./FromThreeBook/libs/three/three.js"></script>
+  <script src="./FromThreeBook/libs/three/controls/OrbitControls.js"></script>
+  <script src="./FromThreeBook/libs/util/Stats.js"></script>
+  <script src="./FromThreeBook/libs/util/dat.gui.js"></script>
+  <script src="./FromThreeBook/src/js/util.js"></script>
+  <script src="./FromThreeBook/libs/three/loaders/OBJLoader.js"></script>
+  <script src="./FromThreeBook/libs/three/loaders/GLTFLoader.js"></script>
+
+  <!-- barscene.js zuletzt als Module -->
+  <script type="module" src="./barscene.js"></script>
 </body>
-<script type="module" src="./barscene.js"></script>
- <script type="text/javascript" charset="UTF-8" src="./FromThreeBook/libs/three/three.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="./FromThreeBook/libs/three/controls/OrbitControls.js"></script>
-    <script type="text/javascript" src="./FromThreeBook/libs/util/Stats.js"></script>
-    <script type="text/javascript" src="./FromThreeBook/libs/util/dat.gui.js"></script>
-    <script type="text/javascript" src="./FromThreeBook/src/js/util.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="./FromThreeBook/libs/three/loaders/OBJLoader.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="./FromThreeBook/libs/three/loaders/GLTFLoader.js"></script>
 </html>

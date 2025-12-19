@@ -1,8 +1,23 @@
+import { createJukeboxUI } from "./jukeboxUI.js";
+import { createProximityInteract } from "./interactions.js";
+import { createCharacterDanceController } from "./characterDanceController.js";
+
+
 main();
 
 function main() {
     var stats = initStats();
-    var controls
+    
+    //SONGS FÜR DIE JUKEBOX
+    let jukeboxObject = null;
+    const songs = [
+        { name: "Don't Talk", url: "./Songs/dont-talk.mp3" },
+        { name: "Gardens Stylish Chill", url: "./Songs/gardens-stylish-chill.mp3" },
+        { name: "Groovy Vibe", url: "./Songs/groovy-vibe.mp3" },
+        { name: "Night Detective", url: "./Songs/night-detective.mp3" },
+        { name: "Retro Lounge", url: "./Songs/retro-lounge.mp3" },
+        { name: "Sweet Life Luxury Chill", url: "./Songs/sweet-life-luxury-chill.mp3" },
+    ]
 
     //clock für draw function
     var clock = new THREE.Clock();
@@ -21,7 +36,7 @@ function main() {
     });
     gl.shadowMap.enabled = true;
 
-    //CREATE CAMERA
+    //CREATE MAIN CAMERA
     const angleOfView = 55;
     const aspectRatio = canvas.clientWidth / canvas.clientHeight;
     const nearPlane = 0.1;
@@ -38,7 +53,7 @@ function main() {
     //CREATE SCENE
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0.3, 0.5, 0.8);
-    const fog = new THREE.Fog("grey", 1,90);
+    const fog = new THREE.FogExp2(0x9966ff, 0.01);
     scene.fog = fog;
 
     //EVENTLISTENER FÜR KEYBOARD INPUT
@@ -57,6 +72,11 @@ function main() {
     var yaw = 0;
     var pitch = 0;
 
+    //FÜR GUI CONTROLS
+    var controls = new function () {
+        this.mouseSensitivity = 0.002;
+    };
+
     window.addEventListener('mousemove', function (event) {
         if (document.pointerLockElement !== canvas) return;
 
@@ -73,6 +93,15 @@ function main() {
     });
     
 
+    function setupTexture(tex, repeatX, repeatY) {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(repeatX, repeatY);
+        tex.minFilter = THREE.NearestFilter;
+        tex.anisotropy = gl.getMaxAnisotropy();
+        return tex;
+    }
+
     // GEOMETRY
     // Create the upright plane
     const planeWidth = 256;
@@ -85,23 +114,19 @@ function main() {
     // MATERIALS
     const textureLoader = new THREE.TextureLoader();
 
-    const planeTextureMap = textureLoader.load('textures/pebbles.jpg');
-    planeTextureMap.wrapS = THREE.RepeatWrapping;
-    planeTextureMap.wrapT = THREE.RepeatWrapping;
-    planeTextureMap.repeat.set(16, 16);
+    const planeTextureMap = setupTexture(textureLoader.load('textures/floor2/4K/Poliigon_SlateFloorTile_7657_BaseColor.jpg'), 5, 5);
+    const planeNorm = setupTexture(textureLoader.load('textures/floor2/4K/Poliigon_SlateFloorTile_7657_Normal.png'), 5, 5);
+    const planeRoughness = setupTexture(textureLoader.load('textures/floor2/4K/Poliigon_SlateFloorTile_7657_Roughness.jpg'), 5, 5);
+    const planeMetallic  = setupTexture(textureLoader.load('textures/floor2/4K/Poliigon_SlateFloorTile_7657_Metallic.jpg'), 5, 5);
 
-    //planeTextureMap.magFilter = THREE.NearestFilter;
-    planeTextureMap.minFilter = THREE.NearestFilter;
-    planeTextureMap.anisotropy = gl.getMaxAnisotropy();
-    const planeNorm = textureLoader.load('textures/pebbles_normal.png');
-    planeNorm.wrapS = THREE.RepeatWrapping;
-    planeNorm.wrapT = THREE.RepeatWrapping;
-    planeNorm.minFilter = THREE.NearestFilter;
-    planeNorm.repeat.set(16, 16);
     const planeMaterial = new THREE.MeshStandardMaterial({
         map: planeTextureMap,
+        normalMap: planeNorm,
+        roughnessMap: planeRoughness, 
+        roughness: 1.0,
+        metalnessMap: planeMetallic,
+        metalness: 1.0,
         side: THREE.DoubleSide,
-        normalMap: planeNorm 
     });
 
     // MESHES
@@ -111,7 +136,23 @@ function main() {
     scene.add(plane);
 
     
-
+    //CREATE SPIEGELNDE KUGEL
+    // mirror sphere cube-camera 
+    //Quelle: view-source:https://threejs.org/examples/webgl_animation_skinning_ik.html
+    const rendertargetSize = 512;
+    const mirrorSphereCamera = new THREE.CubeCamera( 0.1, 500, rendertargetSize );
+    scene.add( mirrorSphereCamera );
+    const mirrorSphereMaterial = new THREE.MeshBasicMaterial({
+        envMap: mirrorSphereCamera.renderTarget.texture,
+        metalness: 1.0,
+        roughness: 0.0
+    });
+    const mirrorSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(5, 48, 32),
+        mirrorSphereMaterial
+    );
+    mirrorSphere.position.set(-20, 9.5, 25);
+    scene.add(mirrorSphere);
 
 
     //Object Loader für .obj-Dateien
@@ -149,53 +190,80 @@ function main() {
     ); */
 
 
+    //CREATE DISCOKUGELN
+    //Quellen: https://codepen.io/ksenia-k/pen/ZEjJxWQ und https://threejsdemos.com/demos/lighting/disco
+    //TODO
+    
+
     //UNSICHTBARE WAND BOUNDING BOX
-    // Maße des Raums
+    //Maße des Raums
     const roomWidth  = 100;
-    const roomHeight = 15;
+    const roomHeight = 25;
     const roomDepth  = 100;
     const wallThickness = 0.5;
 
-    //Material
-    const wallMaterial = new THREE.MeshPhongMaterial({
-        color: 'pink'
-    });
+    //Textur laden
+    const wallBase = setupTexture(
+        textureLoader.load('textures/wall/RammedEarth018_COL_2K_METALNESS.png')
+        , 1, 1
+    )
+    const wallNormal = setupTexture(
+        textureLoader.load('textures/wall/RammedEarth018_NRM_2K_METALNESS.png')
+        , 1, 1
+    )
 
-    // Vorderwand
+    //Material
+    const wallMaterial = new THREE.MeshStandardMaterial({
+        map: wallBase,
+        normalMap: wallNormal,
+        side:THREE.DoubleSide,
+    });
+    wallMaterial.color.set(0x8c9fff);
+
+    //Vorderwand
     const wallFront = new THREE.Mesh(
         new THREE.BoxGeometry(roomWidth, roomHeight, wallThickness),
         wallMaterial
     );
     wallFront.position.set(0, roomHeight / 2, -roomDepth / 2);
     scene.add(wallFront);
-    blockingObjects.push(wallFront);
+    //blockingObjects.push(wallFront);
 
-    // Rückwand
+    //Rückwand
     const wallBack = new THREE.Mesh(
         new THREE.BoxGeometry(roomWidth, roomHeight, wallThickness),
         wallMaterial
     );
     wallBack.position.set(0, roomHeight / 2, roomDepth / 2);
     scene.add(wallBack);
-    blockingObjects.push(wallBack);
+    //blockingObjects.push(wallBack);
 
-    // Linke Wand
+    //Linke Wand
     const wallLeft = new THREE.Mesh(
         new THREE.BoxGeometry(wallThickness, roomHeight, roomDepth),
         wallMaterial
     );
     wallLeft.position.set(-roomWidth / 2, roomHeight / 2, 0);
     scene.add(wallLeft);
-    blockingObjects.push(wallLeft);
+    //blockingObjects.push(wallLeft);
 
-    // Rechte Wand
+    //Rechte Wand
     const wallRight = new THREE.Mesh(
         new THREE.BoxGeometry(wallThickness, roomHeight, roomDepth),
         wallMaterial
     );
     wallRight.position.set(roomWidth / 2, roomHeight / 2, 0);
     scene.add(wallRight);
-    blockingObjects.push(wallRight);
+    //blockingObjects.push(wallRight);
+
+    //Decke
+    const ceiling = new THREE.Mesh(
+        new THREE.BoxGeometry(roomWidth, wallThickness, roomDepth),
+        wallMaterial
+    );
+    ceiling.position.set(0, roomHeight, 0)
+    scene.add(ceiling);
+
 
     //gltf-loader für .gltf-dateien
     var gltfLoader = new THREE.GLTFLoader();
@@ -204,7 +272,6 @@ function main() {
         'Assets/JukeBox/scene.gltf',
         function (gltf) {
             const jukebox = gltf.scene;
-
             jukebox.position.set(15, 0, 0);
             jukebox.scale.set(10, 10, 10);
             jukebox.rotation.set(0, -0.7, 0);
@@ -219,14 +286,11 @@ function main() {
             scene.add(jukebox);
             //als Kollisionsobjekt hinzufügen
             blockingObjects.push(jukebox);
+            //für Interaktion als jukebox object deklarieren
+            jukeboxObject = jukebox;
         },
-        function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-        function (error) {
-            console.log(error);
-            console.log('An error happened');
-        }
+        xhr => console.log((xhr.loaded / xhr.total * 100) + '% loaded (bar)'),
+        err => console.error('Error loading new bar:', err)
     );
         
     // BAR laden
@@ -269,7 +333,7 @@ function main() {
             const barSize   = barBox.getSize(new THREE.Vector3());
 
             // Grundparameter für die Lampen
-            const lampColor     = 0xff8800;   
+            const lampColor     = "#ff8800";   
             const lampIntensity = 2.9;
             const lampDistance  = 12;
 
@@ -300,6 +364,7 @@ function main() {
     );
 
 
+    const danceController = createCharacterDanceController({ THREE, fadeDuration: 0.25 });
     let mixer;
     //Charakter laden
     gltfLoader.load(
@@ -311,53 +376,77 @@ function main() {
             michelle.position.set(0,0,0);
             michelle.scale.set(7,7,7);
             
-            if(gltf.animations && gltf.animations.length){
-                mixer = new THREE.AnimationMixer(michelle);
+            danceController.attachCharacter({ root: michelle, animations: gltf.animations });
 
-                const dance = mixer.clipAction(gltf.animations[2]);
-                dance.play();
-                dance.setLoop(THREE.LoopRepeat, Infinity);
-                dance.clampWhenFinished = false;
-            }
+            // Optional: starte Default
+            danceController.onSongChanged("default");
         },
 
-        (error) => {
-            console.error("GLB load error:", error);
-        }
+        (err) => console.error("GLB load error:", err)
 
     );
 
 
+    //MAPPING FÜR SONGS AUF ANIMATION
+    danceController.setSongClipMapping({
+        "Don't Talk": 3,
+        "Gardens Stylish Chill": 1,
+        "Groovy Vibe": 2,
+        "Night Detective": 2,
+        "Retro Lounge": 1,
+        "Sweet Life Luxury Chill": 3,
+        default: 0,
+    });
 
-    // MUTTER KIND BEZIEHUNGEN
 
-    //Pointlight
-    const pointlight = new THREE.PointLight(0xff0000, 0.7, 20);
-    pointlight.castShadow = true;
-    const tripod = new THREE.AxesHelper(1);
-
+    const jukeboxUI = createJukeboxUI({
+        songs,
+        onSongChanged: (songName) => danceController.onSongChanged(songName),
+    });
+    
 
     //LIGHTS
+    //Directional Light
+    const tripod2 = new THREE.AxesHelper(5);
     const color = 0x0100ff;
     const intensity = .8;
     const light = new THREE.DirectionalLight(color, intensity);
     light.target = plane;
-    light.position.set(0, 30, 30);
+    light.position.set(0, 20, 0);
     light.castShadow = true;
+    attachChildObject(light, tripod2, new THREE.Vector3(0,0,0));
     scene.add(light);
     scene.add(light.target);
 
+    //Ambient Light
     const ambientColor = 0xffffff;
     const ambientIntensity = 0.2;
     const ambientLight = new THREE.AmbientLight(ambientColor, ambientIntensity);
     scene.add(ambientLight);
 
+    //Pointlight
+    const pointlight = new THREE.PointLight(0xff0000, 0.2, 200);
+    pointlight.castShadow = true;
+    pointlight.position.set(-10, 3, 5);
+    const tripod = new THREE.AxesHelper(5);
+    attachChildObject(pointlight, tripod, new THREE.Vector3(0,0,0));
+    scene.add(pointlight);
 
-    //FÜR GUI CONTROLS
-    var controls = new function () {
-        this.mouseSensitivity = 0.002;
-    };
 
+    //Interaktion für Jukebox
+    const interact = createProximityInteract({
+        THREE,
+        camera,
+        getTargetObject: () => jukeboxObject,
+        distance: 15,
+        isUIOpen: jukeboxUI.isOpen,
+        onEnterRange: () => jukeboxUI.showPrompt("Press E"),
+        onExitRange: () => {
+            jukeboxUI.hidePrompt();
+            jukeboxUI.closeUI();
+        },
+        onInteract: () => jukeboxUI.openUI(),
+    });
 
     //GUI ANLEGEN
     var gui = new dat.GUI();
@@ -382,6 +471,13 @@ function main() {
         if (mixer) mixer.update(delta);
         
         handleKeyboardInput(delta);
+        interact.update();
+        danceController.update(delta);
+
+        mirrorSphere.visible = false;
+        mirrorSphereCamera.position.copy(mirrorSphere.position);
+        mirrorSphereCamera.updateCubeMap(gl, scene); // r95
+        mirrorSphere.visible = true;
 
         gl.render(scene, camera);
         requestAnimationFrame(draw);
@@ -455,10 +551,12 @@ function attachChildObject(parent, child, offset = new THREE.Vector3()) {
     child.updateMatrixWorld(true);
 
     //child an gewünschte Position setzen
-    container.attach(child);
+    container.add(child);
 
     const tripod = new THREE.AxesHelper(1);
     container.add(tripod);
 
     return container;
 }
+
+
