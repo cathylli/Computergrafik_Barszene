@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+
+    #c {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+
+    /* Jukebox und Quiz-RETRO UI, CSS-Code von ChatGPT und Perplexity erstellt*/
+
+    #prompt {
+      position: fixed;
+      left: 50%;
+      bottom: 10%;
+      transform: translateX(-50%);
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.65);
+      color: cyan;
+      font-family: 'Orbitron', monospace;
+      border-radius: 8px;
+      display: none;
+      z-index: 10;
+      text-shadow: 0 0 8px cyan;
+    }
+
+    #jukeboxUI {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      max-width: 90vw;
+      padding: 16px;
+      background: rgba(5,10,20,0.92);
+      color: cyan;
+      font-family: 'Orbitron', monospace;
+      border-radius: 12px;
+      display: none;
+      z-index: 11;
+
+      border: 2px solid cyan;
+      box-shadow:
+        0 0 12px rgba(0,255,255,0.4),
+        inset 0 0 20px rgba(0,255,255,0.15);
+    }
+
+    #songList {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #songList button {
+      background: black;
+      border: 1px solid cyan;
+      color: cyan;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Orbitron', monospace;
+      box-shadow: 0 0 6px rgba(0,255,255,0.3);
+      transition: all 0.2s ease;
+    }
+
+    #songList button:hover {
+      background: rgba(0,255,255,0.15);
+      color: magenta;
+      border-color: magenta;
+      box-shadow: 0 0 10px magenta;
+    }
+
+    #songList button.active {
+      background: rgba(255,0,255,0.25);
+      border-color: magenta;
+      color: white;
+      box-shadow: 0 0 12px magenta;
+    }
+
+    
+
+    #closeJukebox {
+      position: absolute;     
+      top: 8px;                
+      right: 8px;              
+      width: 28px;
+      height: 28px;
+      background: black;
+      border: 2px solid magenta;
+      border-radius: 6px;
+      color: magenta;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      line-height: 24px;       /* zentriert das × */
+      text-shadow: 0 0 6px magenta;
+      transition: 0.2s;
+      z-index: 20;
+    }
+
+    #closeJukebox:hover {
+      box-shadow: 0 0 12px magenta;
+    }
+
+    #closeQuiz {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      background: black;
+      border: 2px solid magenta;
+      border-radius: 6px;
+      color: magenta;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      line-height: 24px;       /* zentriert das × */
+      text-shadow: 0 0 6px magenta;
+      transition: 0.2s;
+      z-index: 20;
+    }
+
+    #closeQuiz:hover {
+      box-shadow: 0 0 12px magenta;
+    }
+
+    #stopSong {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      background: black;
+      border: 2px solid magenta;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 0 6px rgba(255,0,255,0.4);
+      transition: all 0.2s ease;
+      }
+    .stop-icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      background: magenta;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 6px magenta;
+    }
+
+    #stopSong:hover {
+      box-shadow: 0 0 12px magenta;
+    }
+    #playSong {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      background: black;
+      border: 2px solid magenta;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 0 6px rgba(255,0,255,0.4);
+      transition: all 0.2s ease;
+    }
+
+    #playSong:hover {
+      box-shadow: 0 0 12px magenta;
+    }
+
+    /* Play-Symbol: Dreieck */
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 16px solid magenta;  /* Farbe wie Stop */
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      transform: translate(-50%, -50%);
+    }
+      .controls {
+      display: flex;
+      justify-content: center;  /*horizontal zentriert */
+      margin-top: 16px;         /* Abstand nach oben von Song-Liste */
+      gap: 12px;                /* Abstand zwischen Stop/Play Buttons */
+    }
+
+    #quizUI {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      max-width: 90vw;
+      padding: 16px;
+      background: rgba(5,10,20,0.92);
+      color: cyan;
+      font-family: 'Orbitron', monospace;
+      border-radius: 12px;
+      border: 2px solid cyan;
+      box-shadow:
+        0 0 12px rgba(0,255,255,0.4),
+        inset 0 0 20px rgba(0,255,255,0.15);
+      z-index: 12;  /* höher als Jukebox (11) */
+    }
+
+    #quizQuestion {
+      margin: 16px 0;
+      font-size: 16px;
+      text-align: center;
+      text-shadow: 0 0 4px cyan;
+    }
+
+    #quizOptions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    #quizOptions button {
+      background: black;
+      border: 1px solid cyan;
+      color: cyan;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'Orbitron', monospace;
+      box-shadow: 0 0 6px rgba(0,255,255,0.3);
+      transition: all 0.2s ease;
+    }
+
+    #quizOptions button:hover {
+      background: rgba(0,255,255,0.15);
+      color: magenta;
+      border-color: magenta;
+      box-shadow: 0 0 10px magenta;
+    }
+
+    #quizFeedback {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 600;
+      text-shadow: 0 0 4px currentColor;
+      min-height: 20px;
+    }
+      </style>
+
+  <title>WebXR Barszene</title>
+</head>
+
+
+
+<body>
+  <canvas id="c"></canvas>
+
+  <!-- Prompt -->
+  <div id="prompt">
+    Press E
+  </div>
+
+  <div id="jukeboxUI">
+    <div class="header">
+      <div class="title">Jukebox</div>
+      <button id="closeJukebox">X</button>
+    </div>
+    <div class="label">Select a song:</div>
+    <div id="songList"></div>
+    <div class="controls">
+      <button id="stopSong" title="Stop">
+        <span class="stop-icon"></span>
+      </button>
+      <button id="playSong" title="Play" style="display: none;">
+        <span class="play-icon"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="quizUI" style="display:none;">
+  <div class="header">
+    <div class="title">🎵 Music Quiz</div>
+    <button id="closeQuiz" style="position: absolute; top: 8px; right: 8px;">X</button>
+  </div>
+  <div id="quizQuestion">Aus welcher Zeit ist dieser Track?</div>
+  <div id="quizOptions"></div>
+  <div id="quizFeedback"></div>
+</div>
+
+
+  <!-- Libraries zuerst -->
+  <script src="./FromThreeBook/libs/three/three.js"></script>
+  <script src="./FromThreeBook/libs/three/controls/OrbitControls.js"></script>
+  <script src="./FromThreeBook/libs/util/Stats.js"></script>
+  <script src="./FromThreeBook/libs/util/dat.gui.js"></script>
+  <script src="./FromThreeBook/src/js/util.js"></script>
+  <script src="./FromThreeBook/libs/three/loaders/OBJLoader.js"></script>
+  <script src="./FromThreeBook/libs/three/loaders/GLTFLoader.js"></script>
+
+  <!-- barscene.js zuletzt als Module -->
+  <script type="module" src="./barscene.js"></script>
+</body>
+</html>
