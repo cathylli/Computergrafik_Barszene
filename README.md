@@ -129,11 +129,11 @@ python py -m http.server 8000
 
 | Ordner | Inhalt | Verwendung |
 |--------|--------|------------|
-| **Assets/** | 3D-Modelle | `Bar/`, `Barhocker/`, `Bowling-bar/`, `Jukebox/` mit Textures |
+| **Assets/** | 3D-Modelle | `Bar/scene.gltf`, `Jukebox/scene.gltf` |
 | **Songs/** | Audio-Dateien | Jukebox-Songs (MP3/M4A) |
-| **textures/** |  Boden- und Wand-Texturen | `floor/4K/`, `floor2/4K/` |
+| **textures/** |  Boden- und Wand-Texturen | `floor2/4K/Poliigon_SlateFloorTile_7657_BaseColor.jpg`,  `floor2/4K/Poliigon_SlateFloorTile_7657_Normal.png`, `floor2/4K/Poliigon_SlateFloorTile_7657_Roughness.jpg`, `wall/RammedEarth018_COL_2K_METALNESS.png`, `wall/RammedEarth018_NRM_2K_METALNESS.png` |
 | **Characters/** | Charakter Michelle | Tanzende Bar-Besucherin |
-| **FromThreeBook/** | Three.js Libs | Loaders, Scene-Rendering, Geometrie/Material/Mesh, Lichter, Kameras, Animationen, Helper |
+| **FromThreeBook/** | Three.js Libs | siehe oben [Three.js Module]](#Three.js Module) |
 
 ## Quellen
 ### Codeinspiration
