@@ -2,7 +2,7 @@
 
 ## Autoren / Mitwirkende
 - Linda Schinkels (594191)
-- Catharina Hoppensack  
+- Catharina Hoppensack (594129)
 
 ## Technologien
 - JavaScript  
