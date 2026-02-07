@@ -119,7 +119,7 @@ python py -m http.server 8000
 | Datei | Beschreibung |
 |-------|--------------|
 | **index.html** | Entry Point, HTML + Retro-UI (Jukebox/Quiz) + Three.js Setup |
-| **barscene.js** | Haupt-Scene-Setup, Renderer, Kamera, Beleuchtung, Erstellung und Laden der 3D-Objekte, UI instanziieren (Jukebox+Quiz), Inputlogik (PointerLock+WASD), Kollisionsdetektion |
+| **barscene.js** | Haupt-Scene-Setup, Renderer/Update-Loop, Kamera, Beleuchtung, Erstellung und Laden der 3D-Objekte, UI instanziieren (Jukebox+Quiz), Inputlogik (PointerLock+WASD), Kollisionsdetektion |
 | **quizUI.js** | Quizlogik + User Interface |
 | **jukeboxUI.js** | Jukebox-UI, Song-Management/Audiosteuerung |
 | **characterDanceController.js** | Animation des tanzenden Avatars, Song mapping auf AnimationClips |
@@ -133,7 +133,7 @@ python py -m http.server 8000
 | **Songs/** | Audio-Dateien | Jukebox-Songs (MP3/M4A) |
 | **textures/** |  Boden- und Wand-Texturen | `floor/4K/`, `floor2/4K/` |
 | **Characters/** | Charakter Michelle | Tanzende Bar-Besucherin |
-| **FromThreeBook/** | Three.js Libs | Controls, Loader, Shaders, Beispiele |
+| **FromThreeBook/** | Three.js Libs | Loaders, Scene-Rendering, Geometrie/Material/Mesh, Lichter, Kameras, Animationen, Helper |
 
 ## Quellen
 ### Codeinspiration
@@ -149,12 +149,12 @@ python py -m http.server 8000
 - [Jukebox](https://sketchfab.com/3d-models/jukebox-188e71ce378f4b6786054d9f74dd3a25)
 - [Bar](https://sketchfab.com/3d-models/bar-842754f23a384d7e86aca94d12aa34ca)
 ### Texturen
-- [Spiegeltextur (Code)](view-source:https://threejs.org/examples/webgl_animation_skinning_ik.html)
+- [Spiegeltextur (Code)](https://threejs.org/examples/webgl_animation_skinning_ik.html)
 - [Bodentextur](https://www.poliigon.com/texture/square-slate-raw-tile-texture-black/7657)
 - [Wandtextur](https://www.poliigon.com/texture/adobe-plaster-wall-texture/7584)
 ### Animationen
-- [3D Modelle aus Blender mit Animationen exportieren](https://www.youtube.com/watch?v=GByT8ActvDk)
+- [3D Modelle mit Animationen aus Blender exportieren](https://www.youtube.com/watch?v=GByT8ActvDk)
 - [Animationen von Mixamo (Twist Dance, Salsa Dancing, Rumba Dancing)](https://www.mixamo.com/#/?page=1&query=dance&type=Motion%2CMotionPack)
 ### Weitere Hilfsmittel
-- [Perplexity](https://www.mixamo.com/#/?page=1&query=michelle&type=Character)
+- [Perplexity](https://www.perplexity.ai/)
 - [ChatGPT](https://chatgpt.com/)
