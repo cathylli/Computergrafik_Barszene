@@ -130,9 +130,9 @@ python py -m http.server 8000
 | Ordner | Inhalt | Verwendung |
 |--------|--------|------------|
 | **Assets/** | 3D-Modelle | `Bar/scene.gltf`, `Jukebox/scene.gltf` |
-| **Songs/** | Audio-Dateien | Jukebox-Songs (MP3/M4A) |
+| **Songs/** | Audio-Dateien | Jukebox-Songs `Bruce Springsteen - I'm On Fire.m4a`, `Lionel Richie - All Night Long (All Night).mp3`, `MACKLEMORE & RYAN LEWIS - THRIFT SHOP FEAT. WANZ.mp3`, `The Black Eyed Peas - Let's Get It Started.mp3` sowie Ambientemusik `groovy-vibe.mp3` |
 | **textures/** |  Boden- und Wand-Texturen | `floor2/4K/Poliigon_SlateFloorTile_7657_BaseColor.jpg`,  `floor2/4K/Poliigon_SlateFloorTile_7657_Normal.png`, `floor2/4K/Poliigon_SlateFloorTile_7657_Roughness.jpg`, `wall/RammedEarth018_COL_2K_METALNESS.png`, `wall/RammedEarth018_NRM_2K_METALNESS.png` |
-| **Characters/** | Charakter Michelle | Tanzende Bar-Besucherin |
+| **Characters/** | Charakter Michelle | Tanzende Bar-Besucherin `Michelle2idle.glb` |
 | **FromThreeBook/** | Three.js Libs | siehe oben [Three.js Module](#threejs-module) |
 
 ## Quellen
