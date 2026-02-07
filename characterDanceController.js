@@ -1,4 +1,4 @@
-// characterDanceController.js
+// Hilfe: ChatGPT
 // ES-Module: steuert Character-Animationen abhängig vom aktuell abgespielten Song
 
 export function createCharacterDanceController({ THREE, fadeDuration = 0.25 } = {}) {
@@ -11,7 +11,6 @@ export function createCharacterDanceController({ THREE, fadeDuration = 0.25 } = 
   let currentAction = null;
 
   // Song-Key -> AnimationClip-Name ODER Index (in gltf.animations)
-  // Passe das Mapping an deine Songs/Clips an.
   const songToClip = new Map();
 
   /** @type {THREE.AnimationClip[]} */

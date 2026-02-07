@@ -82,7 +82,7 @@ einfache Animation (rotieren)
 - Animationsdaten verwenden (AnimationMixer)
 
 
-Gleichzeitig soll Nutzer*innnen durch die Anwendung ein niedrigschwelliger und spielerischer Anreiz geboten werden, sich mit popkultureller Musikgeschichte auseinanderzusetzen.
+Gleichzeitig soll Nutzer*innen durch die Anwendung ein niedrigschwelliger und spielerischer Anreiz geboten werden, sich mit popkultureller Musikgeschichte auseinanderzusetzen.
 
 Der User befindet sich in den Räumlichkeiten einer Bar. Er kann sich dort frei bewegen, d.h. laufen und sich umsehen. In der Bar ist eine Jukebox und ein tanzender Avatar. Wenn der User die Jukebox ansteuert, kann er ein Lied auswählen. Der Avatar passt seine Bewegungen an die ausgewählte Musik an. Anschließend öffnet sich ein Musikquiz, bei dem nach dem Erscheinungsjahr des ausgewählten Tracks gefragt wird.
 
@@ -136,15 +136,25 @@ python py -m http.server 8000
 | **FromThreeBook/** | Three.js Libs | Controls, Loader, Shaders, Beispiele |
 
 ## Quellen
-
+### Codeinspiration
+- [Kollisionserkennung](https://sbcode.net/threejs/raycaster2/)
 ### Audios
-- [Ambiente Musik](groovy-vibe) !!!ÜBERPRÜFEN!!!
+- [Ambiente Musik](https://pixabay.com/music/beats-groovy-vibe-427121/)
+- Springsteen, B. (1984). I'm on fire [Song]. On Born in the U.S.A. Columbia Records.
+- Macklemore, & Lewis, R. (2012). Thrift shop (feat. Wanz) [Song]. On The Heist. Macklemore, LLC.
+- Richie, L. (1983). All night long (All night) [Song]. On Can't slow down. Motown.
+- Black Eyed Peas. (2004). Let's get it started [Song]. On Elephunk. A&M Records; Interscope Records.
 ### Assets
 - [Charakter Michelle](https://www.mixamo.com/#/?page=1&query=michelle&type=Character)
 - [Jukebox](https://sketchfab.com/3d-models/jukebox-188e71ce378f4b6786054d9f74dd3a25)
-- 
+- [Bar](https://sketchfab.com/3d-models/bar-842754f23a384d7e86aca94d12aa34ca)
 ### Texturen
-- 
+- [Spiegeltextur (Code)](view-source:https://threejs.org/examples/webgl_animation_skinning_ik.html)
+- [Bodentextur](https://www.poliigon.com/texture/square-slate-raw-tile-texture-black/7657)
+- [Wandtextur](https://www.poliigon.com/texture/adobe-plaster-wall-texture/7584)
+### Animationen
+- [3D Modelle aus Blender mit Animationen exportieren](https://www.youtube.com/watch?v=GByT8ActvDk)
+- [Animationen von Mixamo (Twist Dance, Salsa Dancing, Rumba Dancing)](https://www.mixamo.com/#/?page=1&query=dance&type=Motion%2CMotionPack)
 ### Weitere Hilfsmittel
 - [Perplexity](https://www.mixamo.com/#/?page=1&query=michelle&type=Character)
 - [ChatGPT](https://chatgpt.com/)
