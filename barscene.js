@@ -8,6 +8,10 @@ main();
 
 function main() {
     //SONGS FÜR DIE JUKEBOX
+    // ACHTUNG: Die vier Jukebox-Songs sind urheberrechtlich geschützt und liegen deshalb
+    // NICHT im Repository. Die Dateien müssen lokal unter ./Songs/ mit exakt diesen
+    // Dateinamen ergänzt werden, sonst bleibt die Jukebox stumm (Szene und Quiz laufen
+    // trotzdem). Details siehe README -> "Hinweis zu den Songs".
     let jukeboxObject = null;
     const songs = [
         { name: "I'm On Fire", era: "1984", url: "./Songs/Bruce Springsteen - I'm On Fire.m4a" },

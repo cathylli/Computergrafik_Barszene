@@ -39,3 +39,14 @@ coverage/
 *.blend1
 *.blend2
 *.blend@
+
+# Urheberrechtlich geschuetzte Jukebox-Songs: liegen nur lokal, nicht im Repo
+# (siehe README -> "Hinweis zu den Songs")
+Songs/*.mp3
+Songs/*.m4a
+Songs/*.wav
+Songs/*.ogg
+!Songs/groovy-vibe.mp3
+
+# Demo-Video enthaelt die geschuetzten Songs als Tonspur: bleibt lokal
+Barszene_Final.mp4

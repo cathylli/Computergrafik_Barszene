@@ -1,5 +1,33 @@
 # Projektdokumentation – Barszene
 
+> ## ⚠️ Hinweis zu den Songs und zum Projektstatus
+>
+> **Dieses Projekt ist ein prototypischer Studienentwurf** und dient ausschließlich der
+> Demonstration grafischer und interaktiver Features im Rahmen des Moduls Computergrafik.
+> Es ist kein fertiges oder veröffentlichungsreifes Produkt.
+>
+> **Die vier Jukebox-Songs sind urheberrechtlich geschützt und daher nicht Teil dieses
+> Repositories.** Im Ordner `Songs/` liegt lediglich die frei lizenzierte Ambientemusik
+> (`groovy-vibe.mp3`, Pixabay Content License).
+>
+> Um die Jukebox vollständig nutzen zu können, müssen die Musikdateien **lokal ergänzt**
+> werden – aus einer eigenen, rechtmäßig erworbenen Quelle. Sie gehören in den Ordner
+> `Songs/` und benötigen exakt diese Dateinamen (so sind sie in `barscene.js` referenziert):
+>
+> | Dateiname | Titel | Interpret*in | Jahr |
+> |-----------|-------|--------------|------|
+> | `Bruce Springsteen - I'm On Fire.m4a` | I'm On Fire | Bruce Springsteen | 1984 |
+> | `Lionel Richie - All Night Long (All Night).mp3` | All Night Long (All Night) | Lionel Richie | 1983 |
+> | `MACKLEMORE & RYAN LEWIS - THRIFT SHOP FEAT. WANZ.mp3` | Thrift Shop (feat. Wanz) | Macklemore & Ryan Lewis | 2012 |
+> | `The Black Eyed Peas - Let's Get It Started.mp3` | Let's Get It Started | The Black Eyed Peas | 2003 |
+>
+> Alternativ können in `barscene.js` (Array `songs`) eigene, frei lizenzierte Tracks
+> eingetragen werden. Dann sollten auch die Jahreszahlen (`era`) und das Animations-Mapping
+> in `danceController.setSongClipMapping({ ... })` entsprechend angepasst werden.
+>
+> **Ohne die Songdateien bleibt die Jukebox stumm – Szene, Steuerung, Avatar und Quiz
+> funktionieren weiterhin.**
+
 ## Autoren / Mitwirkende
 - Linda Schinkels (594191)
 - Catharina Hoppensack (594129)
@@ -130,7 +158,7 @@ python py -m http.server 8000
 | Ordner | Inhalt | Verwendung |
 |--------|--------|------------|
 | **Assets/** | 3D-Modelle | `Bar/scene.gltf`, `Jukebox/scene.gltf` |
-| **Songs/** | Audio-Dateien | Jukebox-Songs `Bruce Springsteen - I'm On Fire.m4a`, `Lionel Richie - All Night Long (All Night).mp3`, `MACKLEMORE & RYAN LEWIS - THRIFT SHOP FEAT. WANZ.mp3`, `The Black Eyed Peas - Let's Get It Started.mp3` sowie Ambientemusik `groovy-vibe.mp3` |
+| **Songs/** | Audio-Dateien | Ambientemusik `groovy-vibe.mp3` (frei lizenziert, im Repo enthalten). Die vier Jukebox-Songs sind urheberrechtlich geschützt und **nicht im Repo** – sie müssen lokal ergänzt werden, siehe [Hinweis zu den Songs](#️-hinweis-zu-den-songs-und-zum-projektstatus) |
 | **textures/** |  Boden- und Wand-Texturen | `floor2/4K/Poliigon_SlateFloorTile_7657_BaseColor.jpg`,  `floor2/4K/Poliigon_SlateFloorTile_7657_Normal.png`, `floor2/4K/Poliigon_SlateFloorTile_7657_Roughness.jpg`, `wall/RammedEarth018_COL_2K_METALNESS.png`, `wall/RammedEarth018_NRM_2K_METALNESS.png` |
 | **Characters/** | Charakter Michelle | Tanzende Bar-Besucherin `Michelle2idle.glb` |
 | **FromThreeBook/** | Three.js Libs | siehe oben [Three.js Module](#threejs-module) |
@@ -139,7 +167,11 @@ python py -m http.server 8000
 ### Codeinspiration
 - [Kollisionserkennung](https://sbcode.net/threejs/raycaster2/)
 ### Audios
-- [Ambiente Musik](https://pixabay.com/music/beats-groovy-vibe-427121/)
+Die folgenden vier Titel wurden im Prototyp verwendet, sind aber **nicht Bestandteil dieses
+Repositories** (siehe [Hinweis zu den Songs](#️-hinweis-zu-den-songs-und-zum-projektstatus)).
+Sie sind hier ausschließlich als Quellenangabe aufgeführt.
+
+- [Ambiente Musik](https://pixabay.com/music/beats-groovy-vibe-427121/) (Pixabay Content License – im Repo enthalten)
 - Springsteen, B. (1984). I'm on fire [Song]. On Born in the U.S.A. Columbia Records.
 - Macklemore, & Lewis, R. (2012). Thrift shop (feat. Wanz) [Song]. On The Heist. Macklemore, LLC.
 - Richie, L. (1983). All night long (All night) [Song]. On Can't slow down. Motown.
